@@ -31,6 +31,7 @@ public class MemeGenerator {
 			g.setColor(color);
 			g.drawString(text, 100, 100);
 			
+			
 			ImageIO.write(image, "png", new File(fileURL));
 		}
 
