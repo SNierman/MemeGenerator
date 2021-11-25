@@ -179,7 +179,10 @@ Meaning, show us different pictures and positions and we select the best fit?
 		 * check if it matters if it's a png
 		 * show options of text position, delete the ones they choose not to have
 		 * make the whole thing into a while loop so they could do it again
+		 * 
 		 */
+		
+		// adding a change
 	}
 
 }
