@@ -155,6 +155,8 @@ public class Main {
 		// change constructor that all these are methods in the MemeGenerator class
 		MemeGenerator meme = new MemeGenerator(fileURL, text, font, fontSize, color);
 		
+		
+		
 		try {
 			DisplayImage finishedMeme = new DisplayImage(fileURL);
 		} catch (IOException e) {
@@ -171,7 +173,9 @@ public class Main {
 		/**
 		 * Here are a few things we would still like to add/change.
 1.	We would love if there could be multiple choices of memes, instead of all using that cute stick figure.
-2.	Being that we’re not developers, we don’t really know what kind of work this would entail, but is it possible to show different samples with the text in different positions, and we could choose where we want it each time.
+2.	Being that we’re not developers, we don’t really know what kind of work this would entail, 
+but is it possible to show different samples with the text in different positions, 
+and we could choose where we want it each time.
 Meaning, show us different pictures and positions and we select the best fit?
 
 	*/

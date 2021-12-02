@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.util.Scanner;
 import java.awt.*;
 
 public class MemeGenerator {
@@ -23,17 +24,85 @@ public class MemeGenerator {
 			//imput validation
 		try {
 			BufferedImage image = ImageIO.read(new File(fileURL));
+			Scanner keyboard = new Scanner(System.in);
+			
+			File [] list = new File [6];
 			
 			Font fontObject = new Font(font, Font.BOLD, fontSize);
-
-			Graphics g = image.getGraphics();
-			g.setFont(fontObject);
-			g.setColor(color);
-			g.drawString(text, 100, 100);
 			
+			
+			int heightInc = (image.getHeight(null)/5);
+			int widthStart = 10;
+			
+			int y = heightInc;
+			int x = widthStart;
+			
+			for(int i = 0; i<6 ; i++) {
+				BufferedImage newImage = ImageIO.read(new File(fileURL));
+				Graphics pic = newImage.getGraphics();
+				pic.setFont(fontObject);
+				pic.setColor(color);
+				if(i==3) {
+					y+=(heightInc*3);
+					x=widthStart;
+				}
+				
+				pic.drawString(text, x, y);
+				pic.dispose();
+				
+				x+=(image.getWidth(null)/3)-10;
+				
+				File img = new File("image" + i);
+				pic.dispose();
+				list[i] = img;
+				
+				ImageIO.write(newImage, "png", img);
+				pic.dispose();
+				
+							
+			}
+			System.out.println("where would you like your text?");
+			System.out.println("see pop-up");
+
+			Grid ourGrid = new Grid(list);
+			
+			System.out.println("1. top-left");
+			System.out.println("2. top-center");
+			System.out.println("3. top-right");
+			System.out.println("4. bottom-left");
+			System.out.println("5. bottom-center");
+			System.out.println("6. bottom-right");
+			System.out.print("Enter your choice: ");
+			
+			int choice = keyboard.nextInt() -1;
+			while (choice < 0 || choice > 5) {
+				System.out.print("Please enter a choice 1 - 6:");
+				choice = keyboard.nextInt();
+			}
+			
+			BufferedImage chosen = ImageIO.read(new File(list[choice].getName()));
+			
+			
+			//when they actually choose which one to keep
+			ImageIO.write(chosen, "png", new File(fileURL));
+			}	
+				/*
+				public static void main(String[] args) throws Exception {
+				    final BufferedImage image = ImageIO.read(new URL(
+				        "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"));
+
+				    Graphics g = image.getGraphics();
+				    g.setFont(g.getFont().deriveFont(30f));
+				    g.drawString("Hello World!", 100, 100);
+				    g.dispose();
+
+				    ImageIO.write(image, "png", new File("test.png"));
+				}
+
+			}
 			
 			ImageIO.write(image, "png", new File(fileURL));
-		}
+		}*/
 
 		catch (IOException exc) {
 			exc.getMessage();
@@ -43,3 +112,4 @@ public class MemeGenerator {
 		}
 	
 }
+
