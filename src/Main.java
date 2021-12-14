@@ -15,6 +15,8 @@ public class Main {
 		// Can we display all this at once as a form?
 		// can we show a sample
 
+		String smilie = "üòÅ";
+		System.out.println(smilie);
 		System.out.println("\nWelcome to the wonderful Meme Generator, where all your " + "memes come true!");
 
 		System.out.println("--------------------------------------------------------------------------");
@@ -50,7 +52,7 @@ public class Main {
 		
 
 		System.out.print("Enter your meme text: ");
-		text = keyboard.nextLine();
+		text = keyboard.nextLine() + smilie;
 
 		System.out.println("What font would you like to use for the meme?");
 		System.out.println("1. Arial");
@@ -141,6 +143,8 @@ public class Main {
 			break;
 		}
 
+		
+
 		// keyboard.nextLine();
 
 		// make sure have a .png, should we add this back in?
@@ -171,12 +175,14 @@ public class Main {
 		
 		// what to do next time:
 		/**
-		 * Here are a few things we would still like to add/change.
-1.	We would love if there could be multiple choices of memes, instead of all using that cute stick figure.
-2.	Being that weíre not developers, we donít really know what kind of work this would entail, 
-but is it possible to show different samples with the text in different positions, 
-and we could choose where we want it each time.
-Meaning, show us different pictures and positions and we select the best fit?
+		 * The meme generator was fantastic, thank you so much!
+
+We were wondering if it would be possible to add a stamp feature- which would allow us to add a
+smiley face/heart etc in addition to the words and background picture.
+Also, it would be cool if we could further customize our text by making it bold/italic/underlined
+/change size etc.
+
+Thanks again!
 
 	*/
 		/*

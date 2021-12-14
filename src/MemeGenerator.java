@@ -12,6 +12,24 @@ public class MemeGenerator {
 		private int fontSize;
 		private Color color;
 
+		public String drawImages(String data) {
+			try {
+				byte[] utf8 = data.getBytes("UTF-8");
+				data = new String(utf8);
+				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = bufferedImage.createGraphics();
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, 200, 200);
+				g.setColor(Color.black);
+				g.drawString(data, 20, 20);
+				g.dispose();
+				ImageIO.write(bufferedImage, "JPG", new File("test2.jpg"));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return data;
+		}
 		
 		public MemeGenerator(String fileURL, String text, String font, int fontSize, Color color) {
 			
@@ -47,9 +65,10 @@ public class MemeGenerator {
 					x=widthStart;
 				}
 				
-				pic.drawString(text, x, y);
+				//pic.drawString(text, x, y);
 				pic.dispose();
-				
+
+				pic.drawString(drawImages("😁"), x, y);
 				x+=(image.getWidth(null)/3)-10;
 				
 				File img = new File("image" + i);
@@ -110,6 +129,10 @@ public class MemeGenerator {
 		}
 		
 		}
+
+
+
+			
 	
 }
 
