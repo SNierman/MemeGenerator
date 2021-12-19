@@ -65,10 +65,11 @@ public class MemeGenerator {
 					x=widthStart;
 				}
 				
-				//pic.drawString(text, x, y);
-				pic.dispose();
+				pic.drawString(text, x, y);
+				//pic.dispose();
 
-				pic.drawString(drawImages("😁"), x, y);
+				pic.setFont(new Font("Noto Color Emoji", 100, 100));
+				pic.drawString(drawImages("🙊"), x, y);
 				x+=(image.getWidth(null)/3)-10;
 				
 				File img = new File("image" + i);

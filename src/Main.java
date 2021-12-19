@@ -52,7 +52,7 @@ public class Main {
 		
 
 		System.out.print("Enter your meme text: ");
-		text = keyboard.nextLine() + smilie;
+		text = keyboard.nextLine();
 
 		System.out.println("What font would you like to use for the meme?");
 		System.out.println("1. Arial");
