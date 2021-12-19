@@ -133,6 +133,14 @@ public class Main {
 	public static String getFont(Scanner keyboard) {
 		int fontNum;
 		String font;
+		
+		System.out.println("What font would you like to use for the meme?");
+		System.out.println("1. Arial");
+		System.out.println("2. Forte");
+		System.out.println("3. Freestyle Script");
+		System.out.println("4. Georgia");
+		System.out.println("5. Rod");
+		System.out.println("6. Stencil");
 		System.out.println("Please see pop up image to see the sample fonts");
 		try {
 			DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");

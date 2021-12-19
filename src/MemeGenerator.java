@@ -16,36 +16,6 @@ public class MemeGenerator {
 		private Color color;
 		private String stamp;
 		private int style;
-
-		public String drawImages(String data) {
-			try {
-				byte[] utf8 = data.getBytes("UTF-8");
-				data = new String(utf8);
-				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-				
-				Path path = Paths.get(fileURL);
-				long fileSize = Files.size(path);
-				
-				//test this!!!!
-				while(fileSize < 120000 || fileSize > 150000) {
-					
-					bufferedImage = resizeImage(bufferedImage, 1905, 1100);
-				}
-				
-				
-				Graphics2D g = bufferedImage.createGraphics();
-				g.setColor(Color.WHITE);
-				g.fillRect(0, 0, 200, 200);
-				g.setColor(Color.black);
-				g.drawString(data, 20, 20);
-				g.dispose();
-				ImageIO.write(bufferedImage, "JPG", new File("test2.jpg"));
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return data;
-		}
 		
 		public MemeGenerator(String fileURL, String text, String font, int style, int fontSize, Color color, String stamp) {
 			
@@ -56,9 +26,19 @@ public class MemeGenerator {
 			this.color = color;
 			this.stamp = stamp;
 			this.style = style;
-			//imput validation
+			//input validation
 		try {
 			BufferedImage image = ImageIO.read(new File(fileURL));
+			/**
+			Path path = Paths.get(fileURL);
+			long fileSize = Files.size(path);
+			
+			//test this!!!!
+			if(fileSize < 120000 || fileSize > 150000) {
+				
+				image = resizeImage(image, 10, 10);
+			}*/
+			
 			Scanner keyboard = new Scanner(System.in);
 			
 			File [] list = new File [6];
@@ -175,7 +155,26 @@ public class MemeGenerator {
 		    graphics2D.dispose();
 		    return resizedImage;
 		}
-			
+		
+		public String drawImages(String data) {
+			try {
+				byte[] utf8 = data.getBytes("UTF-8");
+				data = new String(utf8);
+				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+				
+				Graphics2D g = bufferedImage.createGraphics();
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, 200, 200);
+				g.setColor(Color.black);
+				g.drawString(data, 20, 20);
+				g.dispose();
+				ImageIO.write(bufferedImage, "JPG", new File("test2.jpg"));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return data;
+		}
 	
 }
 
