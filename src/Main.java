@@ -5,7 +5,11 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.awt.image.BufferedImage;
 
 public class Main {
 
@@ -15,96 +19,77 @@ public class Main {
 		// Can we display all this at once as a form?
 		// can we show a sample
 
-		String smilie = "😁";
-		System.out.println(smilie);
+	
 		System.out.println("\nWelcome to the wonderful Meme Generator, where all your " + "memes come true!");
 
-		System.out.println("--------------------------------------------------------------------------");
-
-		String fileURL;
-		String text;
-		int fontNum;
-		String font;
-		int fontSize;
-		int colorNum;
-		Color color;
-		String newFileName;
+		System.out.println("😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁");
+		System.out.println();
+	
+		String fileURL = getFileURL(keyboard);
+		String text = getMemeText(keyboard);
+		String stamp = getStamp(keyboard);
+		String font = getFont(keyboard);
+		int style = getFontStyle(keyboard);
+		Color color = getTextColor(keyboard);
 
 		
-		System.out.println("What file image do you want to use?");
-		System.out.println("Please enter the full URL");
-		System.out.print("URL: ");
-		fileURL = keyboard.nextLine();
+		//should change this??
+		int fontSize = 75;
 
-		// validating URL
-		boolean notValid = true;
-		while (notValid) {
-			try {
-				notValid = false;
-				Scanner in = new Scanner(new File(fileURL));
-			} catch (FileNotFoundException e) {
-				// the URL is not in a valid form
-				notValid = true;
-				System.out.print("Invalid URL. Please try again.\nURL: ");
-				fileURL = keyboard.nextLine();
-			} 
-		}
+		//should we save under a new file??
+		//String newFileName;
+		// System.out.print("Enter the name of your new meme file: ");
+		// newFileName = keyboard.nextLine();
+
+		new MemeGenerator(fileURL, text, font, style, fontSize, color, stamp);
 		
-
-		System.out.print("Enter your meme text: ");
-		text = keyboard.nextLine();
-
-		System.out.println("What font would you like to use for the meme?");
-		System.out.println("1. Arial");
-		System.out.println("2. Forte");
-		System.out.println("3. Freestyle Script");
-		System.out.println("4. Georgia");
-		System.out.println("5. Rod");
-		System.out.println("6. Stencil");
-
-		System.out.println("Please see pop up image to see the sample fonts");
 		try {
-			DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			new DisplayImage(fileURL);
+		} 
+		catch (IOException e) {
+		
 		}
 
-		System.out.print("Please enter a choice 1 -6:");
-		fontNum = keyboard.nextInt();
+		System.out.print("Check your image file to see your new meme!!");
 
-		while (fontNum < 1 || fontNum > 6) {
-			System.out.print("Please enter a choice 1 - 6:");
-			fontNum = keyboard.nextInt();
+	}
+	
+	public static int getFontStyle(Scanner keyboard) {
+		int styleNum;
+		int style;
+		//bold, italic or regular
+		System.out.println("Would you like your text to be- ");
+		System.out.println("1. Bold");
+		System.out.println("2. Italic");
+		System.out.println("3. Plain");
+		
+		System.out.print("Enter your choice: ");
+
+		styleNum = keyboard.nextInt();
+
+		while (styleNum < 1 || styleNum > 4) {
+			System.out.print("Please enter a choice 1 - 3:");
+			styleNum = keyboard.nextInt();
 		}
 
-		switch (fontNum) {
+		switch (styleNum) {
 
 		case 1:
-			font = "Arial";
+			style = Font.BOLD;
 			break;
 		case 2:
-			font = "Forte";
-			break;
-		case 3:
-			font = "Freestyle Script";
-			break;
-		case 4:
-			font = "Georgia";
-			break;
-		case 5:
-			font = "Rod";
+			style = Font.ITALIC;
 			break;
 		default:
-			font = "Stencil";
+			style = Font.PLAIN ;
 			break;
 		}
+		return style;
+	}
 
-		// big, medium, small font size
-		// for now- hard coded
-		fontSize = 75;
-
-		// maybe change bold?
-
+	public static Color getTextColor(Scanner keyboard) {
+		int colorNum;
+		Color color;
 		System.out.println("What color would you like the text to be? ");
 		System.out.println("1. Red");
 		System.out.println("2. Blue");
@@ -142,57 +127,132 @@ public class Main {
 			color = Color.WHITE;
 			break;
 		}
+		return color;
+	}
 
-		
-
-		// keyboard.nextLine();
-
-		// make sure have a .png, should we add this back in?
-		// System.out.print("Enter the name of your new meme file: ");
-		// newFileName = keyboard.nextLine();
-
-		// maybe add this so that the user can see the meme before it saves to see if
-		// they want to change anything?
-		// DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");
-
-
-		// change constructor that all these are methods in the MemeGenerator class
-		MemeGenerator meme = new MemeGenerator(fileURL, text, font, fontSize, color);
-		
-		
-		
+	public static String getFont(Scanner keyboard) {
+		int fontNum;
+		String font;
+		System.out.println("Please see pop up image to see the sample fonts");
 		try {
-			DisplayImage finishedMeme = new DisplayImage(fileURL);
+			DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");
 		} catch (IOException e) {
-		
+			System.out.println(e.getMessage());
 		}
 
-		// while loop to see if want to make a new meme
-		// add to cahnge position of the file
+		System.out.print("Please enter a choice 1 -6:");
+		fontNum = keyboard.nextInt();
 
-		System.out.print("Check your image file to see your new meme!!");
+		while (fontNum < 1 || fontNum > 6) {
+			System.out.print("Please enter a choice 1 - 6:");
+			fontNum = keyboard.nextInt();
+		}
 
-		
-		// what to do next time:
-		/**
-		 * The meme generator was fantastic, thank you so much!
+		switch (fontNum) {
 
-We were wondering if it would be possible to add a stamp feature- which would allow us to add a
-smiley face/heart etc in addition to the words and background picture.
-Also, it would be cool if we could further customize our text by making it bold/italic/underlined
-/change size etc.
-
-Thanks again!
-
-	*/
-		/*
-		 * check if it matters if it's a png
-		 * show options of text position, delete the ones they choose not to have
-		 * make the whole thing into a while loop so they could do it again
-		 * 
-		 */
-		
-		// adding a change
+		case 1:
+			font = "Arial";
+			break;
+		case 2:
+			font = "Forte";
+			break;
+		case 3:
+			font = "Freestyle Script";
+			break;
+		case 4:
+			font = "Georgia";
+			break;
+		case 5:
+			font = "Rod";
+			break;
+		default:
+			font = "Stencil";
+			break;
+		}
+		return font;
 	}
+
+	public static String getStamp(Scanner keyboard) {
+		
+		int stampNum;
+		String stamp;
+		System.out.println("Which stamp would you like to add (if any)?");
+
+		System.out.println("1. 🌟");
+		System.out.println("2. ❤️");
+		System.out.println("3. 😂");
+		System.out.println("4. 🙂");
+		System.out.println("5. 🙊");
+		System.out.println("6. None");
+		
+		System.out.print("Please enter a choice 1 -6:");
+		stampNum = keyboard.nextInt();
+		
+		while (stampNum < 1 || stampNum > 6) {
+			System.out.print("Please enter a choice 1 - 6:");
+			stampNum = keyboard.nextInt();
+		}
+
+		switch (stampNum) {
+
+		case 1:
+			stamp = "🌟";
+			break;
+		case 2:
+			stamp = "❤️";
+			break;
+		case 3:
+			stamp = "😂";
+			break;
+		case 4:
+			stamp = "🙂";
+			break;
+		case 5:
+			stamp = "🙊";
+			break;
+		default:
+			stamp = "";
+			break;
+		}
+		return stamp;
+	}
+
+	public static String getMemeText(Scanner keyboard) {
+		String text;
+		System.out.print("Enter your meme text: ");
+		text = keyboard.nextLine();
+		return text;
+	}
+
+	public static String getFileURL(Scanner keyboard) {
+		String fileURL;
+		System.out.println("What file image do you want to use?");
+		System.out.println("Please enter the full URL");
+		System.out.print("URL: ");
+		fileURL = keyboard.nextLine();
+
+		// validating URL
+		boolean notValid = true;
+		while (notValid) {
+			try {
+				notValid = false;
+				Scanner in = new Scanner(new File(fileURL));
+				
+			} catch (FileNotFoundException e) {
+				// the URL is not in a valid form
+				notValid = true;
+				System.out.print("Invalid URL. Please try again.\nURL: ");
+				fileURL = keyboard.nextLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+		//input validation for image size...?
+		return fileURL;
+		
+		
+	}
+	
 
 }

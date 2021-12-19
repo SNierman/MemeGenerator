@@ -1,6 +1,9 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.awt.*;
 
@@ -11,12 +14,25 @@ public class MemeGenerator {
 		private String font;
 		private int fontSize;
 		private Color color;
+		private String stamp;
+		private int style;
 
 		public String drawImages(String data) {
 			try {
 				byte[] utf8 = data.getBytes("UTF-8");
 				data = new String(utf8);
 				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+				
+				Path path = Paths.get(fileURL);
+				long fileSize = Files.size(path);
+				
+				//test this!!!!
+				while(fileSize < 120000 || fileSize > 150000) {
+					
+					bufferedImage = resizeImage(bufferedImage, 1905, 1100);
+				}
+				
+				
 				Graphics2D g = bufferedImage.createGraphics();
 				g.setColor(Color.WHITE);
 				g.fillRect(0, 0, 200, 200);
@@ -31,14 +47,15 @@ public class MemeGenerator {
 			return data;
 		}
 		
-		public MemeGenerator(String fileURL, String text, String font, int fontSize, Color color) {
+		public MemeGenerator(String fileURL, String text, String font, int style, int fontSize, Color color, String stamp) {
 			
 			this.fileURL = fileURL;
 			this.text = text;
 			this.font = font;
 			this.fontSize = fontSize;
 			this.color = color;
-		
+			this.stamp = stamp;
+			this.style = style;
 			//imput validation
 		try {
 			BufferedImage image = ImageIO.read(new File(fileURL));
@@ -46,7 +63,7 @@ public class MemeGenerator {
 			
 			File [] list = new File [6];
 			
-			Font fontObject = new Font(font, Font.BOLD, fontSize);
+			Font fontObject = new Font(font, style, fontSize);
 			
 			
 			int heightInc = (image.getHeight(null)/5);
@@ -65,11 +82,30 @@ public class MemeGenerator {
 					x=widthStart;
 				}
 				
-				pic.drawString(text, x, y);
-				//pic.dispose();
+				
+			/**IF WE WANT TO RECENTER IN A BETTER WAY
 
+				public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+				    // Get the FontMetrics
+				    FontMetrics metrics = g.getFontMetrics(font);
+				    // Determine the X coordinate for the text
+				    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+				    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+				    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+				    // Set the font
+				    g.setFont(font);
+				    // Draw the String
+				    g.drawString(text, x, y);
+				}*/
+
+				
+				
+				pic.drawString(text, x, y);
+				
+				FontMetrics metrics = pic.getFontMetrics(fontObject);
+				 
 				pic.setFont(new Font("Noto Color Emoji", 100, 100));
-				pic.drawString(drawImages("🙊"), x, y);
+				pic.drawString(drawImages(stamp), x + metrics.stringWidth(text), y);
 				x+=(image.getWidth(null)/3)-10;
 				
 				File img = new File("image" + i);
@@ -132,7 +168,13 @@ public class MemeGenerator {
 		}
 
 
-
+		public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+		    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		    Graphics2D graphics2D = resizedImage.createGraphics();
+		    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		    graphics2D.dispose();
+		    return resizedImage;
+		}
 			
 	
 }
