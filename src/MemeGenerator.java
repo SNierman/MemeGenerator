@@ -16,41 +16,68 @@ public class MemeGenerator {
 		private Color color;
 		private String stamp;
 		private int style;
+
+
 		
 		public MemeGenerator(String fileURL, String text, String font, int style, int fontSize, Color color, String stamp) {
-			
-			this.fileURL = fileURL;
+			try {
+				this.fileURL = fileURL;
+				new Scanner(new File(fileURL));
+				
+			} catch (FileNotFoundException e) {
+				e.getMessage();
+			}
+		
 			this.text = text;
 			this.font = font;
 			this.fontSize = fontSize;
 			this.color = color;
 			this.stamp = stamp;
 			this.style = style;
-			//input validation
+			
+		}
+		
+		public void create() {
 		try {
 			BufferedImage image = ImageIO.read(new File(fileURL));
-			/**
-			Path path = Paths.get(fileURL);
-			long fileSize = Files.size(path);
-			
-			//test this!!!!
-			if(fileSize < 120000 || fileSize > 150000) {
-				
-				image = resizeImage(image, 10, 10);
-			}*/
-			
 			Scanner keyboard = new Scanner(System.in);
 			
+			String fileName = populateSampleMemeGrid(image, keyboard);
+			
+			BufferedImage chosen = ImageIO.read(new File(fileName));
+			
+			
+			//create the chosen one
+			ImageIO.write(chosen, "png", new File(fileURL));
+			}	
+				
+		catch (IOException exc) {
+			exc.getMessage();
+
+		}
+		
+		}
+
+		private String populateSampleMemeGrid(BufferedImage image, Scanner keyboard) throws IOException {
 			File [] list = new File [6];
 			
 			Font fontObject = new Font(font, style, fontSize);
 			
+		    // Get the FontMetrics
+			BufferedImage imge = ImageIO.read(new File(fileURL));
+			Graphics g = imge.getGraphics();
+		    FontMetrics metrics = g.getFontMetrics(fontObject);
+
+		    
 			
-			int heightInc = (image.getHeight(null)/5);
-			int widthStart = 10;
+	
 			
-			int y = heightInc;
-			int x = widthStart;
+			int yInc = (image.getHeight()- metrics.getHeight()) / 4 + metrics.getAscent();
+			int xInc = (image.getWidth() - metrics.stringWidth(text)) / 3;
+			
+			int y = yInc;
+			int widthStart = 160;
+			int x = widthStart ;
 			
 			for(int i = 0; i<6 ; i++) {
 				BufferedImage newImage = ImageIO.read(new File(fileURL));
@@ -58,35 +85,18 @@ public class MemeGenerator {
 				pic.setFont(fontObject);
 				pic.setColor(color);
 				if(i==3) {
-					y+=(heightInc*3);
-					x=widthStart;
+					y+=(yInc*2);
+					x= widthStart;
 				}
-				
-				
-			/**IF WE WANT TO RECENTER IN A BETTER WAY
 
-				public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-				    // Get the FontMetrics
-				    FontMetrics metrics = g.getFontMetrics(font);
-				    // Determine the X coordinate for the text
-				    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-				    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-				    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-				    // Set the font
-				    g.setFont(font);
-				    // Draw the String
-				    g.drawString(text, x, y);
-				}*/
-
-				
-				
 				pic.drawString(text, x, y);
 				
-				FontMetrics metrics = pic.getFontMetrics(fontObject);
+				//FontMetrics metrics = pic.getFontMetrics(fontObject);
 				 
 				pic.setFont(new Font("Noto Color Emoji", 100, 100));
 				pic.drawString(drawImages(stamp), x + metrics.stringWidth(text), y);
-				x+=(image.getWidth(null)/3)-10;
+				//x+=(image.getWidth(null)/3)-10;
+				x+=xInc;
 				
 				File img = new File("image" + i);
 				pic.dispose();
@@ -97,6 +107,11 @@ public class MemeGenerator {
 				
 							
 			}
+			int choice = positionChoice(keyboard, list);
+			return list[choice].getName();
+		}
+
+		private int positionChoice(Scanner keyboard, File[] list) {
 			System.out.println("where would you like your text?");
 			System.out.println("see pop-up");
 
@@ -115,52 +130,24 @@ public class MemeGenerator {
 				System.out.print("Please enter a choice 1 - 6:");
 				choice = keyboard.nextInt();
 			}
-			
-			BufferedImage chosen = ImageIO.read(new File(list[choice].getName()));
-			
-			
-			//when they actually choose which one to keep
-			ImageIO.write(chosen, "png", new File(fileURL));
-			}	
-				/*
-				public static void main(String[] args) throws Exception {
-				    final BufferedImage image = ImageIO.read(new URL(
-				        "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"));
-
-				    Graphics g = image.getGraphics();
-				    g.setFont(g.getFont().deriveFont(30f));
-				    g.drawString("Hello World!", 100, 100);
-				    g.dispose();
-
-				    ImageIO.write(image, "png", new File("test.png"));
-				}
-
-			}
-			
-			ImageIO.write(image, "png", new File(fileURL));
-		}*/
-
-		catch (IOException exc) {
-			exc.getMessage();
-
-		}
-		
+			return choice;
 		}
 
-
-		public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-		    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-		    Graphics2D graphics2D = resizedImage.createGraphics();
-		    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-		    graphics2D.dispose();
-		    return resizedImage;
-		}
-		
 		public String drawImages(String data) {
 			try {
 				byte[] utf8 = data.getBytes("UTF-8");
 				data = new String(utf8);
 				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+				
+				Path path = Paths.get(fileURL);
+				long fileSize = Files.size(path);
+				
+				//test this!!!!
+				while(fileSize < 120000 || fileSize > 150000) {
+					
+					bufferedImage = resizeImage(bufferedImage, 1905, 1100);
+				}
+				
 				
 				Graphics2D g = bufferedImage.createGraphics();
 				g.setColor(Color.WHITE);
@@ -175,6 +162,28 @@ public class MemeGenerator {
 			}
 			return data;
 		}
+		public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+		    // Get the FontMetrics
+		    FontMetrics metrics = g.getFontMetrics(font);
+		    // Determine the X coordinate for the text
+		    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+		    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+		    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+		    // Set the font
+		    g.setFont(font);
+		    // Draw the String
+		    g.drawString(text, x, y);
+		}
+		
+		
+		public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+		    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		    Graphics2D graphics2D = resizedImage.createGraphics();
+		    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		    graphics2D.dispose();
+		    return resizedImage;
+		}
+			
 	
 }
 
