@@ -15,11 +15,10 @@ public class DisplayImage {
 
 		this.fileToDisplay = fileToDisplay;
 
-		display(fileToDisplay);
 	}
 
-	private void display(String fileToDisplay) throws IOException {
-		BufferedImage img = ImageIO.read(new File(fileToDisplay));
+	public void display() throws IOException {
+		BufferedImage img = ImageIO.read(new File(this.fileToDisplay));
 		ImageIcon icon = new ImageIcon(img);
 		JFrame frame = new JFrame();
 		frame.setLayout(new FlowLayout());

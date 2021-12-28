@@ -45,7 +45,8 @@ public class Main {
 		mg.create();
 		
 		try {
-			new DisplayImage(fileURL);
+			new DisplayImage(fileURL).display();;
+			
 		} 
 		catch (IOException e) {
 		
@@ -137,6 +138,7 @@ public class Main {
 		System.out.println("Please see pop up image to see the sample fonts");
 		try {
 			DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");
+			fontChoices.display();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -232,12 +234,31 @@ public class Main {
 		System.out.print("URL: ");
 		fileURL = keyboard.nextLine();
 
-		// validating URL
+		// validating URL and file size
 		boolean notValid = true;
 		while (notValid) {
 			try {
-				notValid = false;
 				Scanner in = new Scanner(new File(fileURL));
+				
+				Path path = Paths.get(fileURL);
+				long fileSize;
+				
+					fileSize = Files.size(path);
+
+					while(fileSize < 130000 || fileSize > 2000000) {
+						
+						System.out.println("ERROR: Image size invalid. Please resize image or enter a new image URL. ");
+						System.out.println("URL: ");
+						fileURL = keyboard.nextLine();
+						
+						new Scanner(new File(fileURL));
+						
+						path = Paths.get(fileURL);
+						fileSize = Files.size(path);
+
+						notValid = true;
+					}
+				notValid = false;
 				
 			} catch (FileNotFoundException e) {
 				// the URL is not in a valid form
@@ -245,11 +266,11 @@ public class Main {
 				System.out.print("Invalid URL. Please try again.\nURL: ");
 				fileURL = keyboard.nextLine();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} 
 		}
-		//input validation for image size...?
+		
 		return fileURL;
 		
 		

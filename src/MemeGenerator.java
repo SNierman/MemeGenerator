@@ -76,7 +76,7 @@ public class MemeGenerator {
 			int xInc = (image.getWidth() - metrics.stringWidth(text)) / 3;
 			
 			int y = yInc;
-			int widthStart = 160;
+			int widthStart = 50;
 			int x = widthStart ;
 			
 			for(int i = 0; i<6 ; i++) {
@@ -139,16 +139,6 @@ public class MemeGenerator {
 				data = new String(utf8);
 				BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
 				
-				Path path = Paths.get(fileURL);
-				long fileSize = Files.size(path);
-				
-				//test this!!!!
-				while(fileSize < 120000 || fileSize > 150000) {
-					
-					bufferedImage = resizeImage(bufferedImage, 1905, 1100);
-				}
-				
-				
 				Graphics2D g = bufferedImage.createGraphics();
 				g.setColor(Color.WHITE);
 				g.fillRect(0, 0, 200, 200);
@@ -162,28 +152,8 @@ public class MemeGenerator {
 			}
 			return data;
 		}
-		public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-		    // Get the FontMetrics
-		    FontMetrics metrics = g.getFontMetrics(font);
-		    // Determine the X coordinate for the text
-		    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-		    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-		    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-		    // Set the font
-		    g.setFont(font);
-		    // Draw the String
-		    g.drawString(text, x, y);
-		}
+
 		
-		
-		public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-		    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-		    Graphics2D graphics2D = resizedImage.createGraphics();
-		    graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-		    graphics2D.dispose();
-		    return resizedImage;
-		}
-			
 	
 }
 
