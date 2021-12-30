@@ -16,36 +16,29 @@ public class Main {
 	public static void main(String[] args) {
 
 		Scanner keyboard = new Scanner(System.in);
-		// Can we display all this at once as a form?
-		// can we show a sample
-
 	
 		System.out.println("\nWelcome to the wonderful Meme Generator, where all your " + "memes come true!");
 
 		System.out.println("😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁😁");
 		System.out.println();
 	
+		//get user choices
 		String fileURL = getFileURL(keyboard);
 		String text = getMemeText(keyboard);
 		String stamp = getStamp(keyboard);
 		String font = getFont(keyboard);
 		int style = getFontStyle(keyboard);
 		Color color = getTextColor(keyboard);
-
 		
-		//should change this??
+		//fontSize set a medium size value
 		int fontSize = 75;
-
-		//should we save under a new file??
-		//String newFileName;
-		// System.out.print("Enter the name of your new meme file: ");
-		// newFileName = keyboard.nextLine();
 
 		MemeGenerator mg = new MemeGenerator(fileURL, text, font, style, fontSize, color, stamp);
 		mg.create();
 		
+		//display the meme upon completion
 		try {
-			new DisplayImage(fileURL).display();;
+			new DisplayImage(fileURL).display();
 			
 		} 
 		catch (IOException e) {
@@ -59,6 +52,7 @@ public class Main {
 	public static int getFontStyle(Scanner keyboard) {
 		int styleNum;
 		int style;
+		
 		//bold, italic or regular
 		System.out.println("Would you like your text to be- ");
 		System.out.println("1. Bold");
@@ -92,6 +86,7 @@ public class Main {
 	public static Color getTextColor(Scanner keyboard) {
 		int colorNum;
 		Color color;
+		
 		System.out.println("What color would you like the text to be? ");
 		System.out.println("1. Red");
 		System.out.println("2. Blue");
@@ -135,6 +130,7 @@ public class Main {
 	public static String getFont(Scanner keyboard) {
 		int fontNum;
 		String font;
+		
 		System.out.println("Please see pop up image to see the sample fonts");
 		try {
 			DisplayImage fontChoices = new DisplayImage("Font_Choices.PNG");

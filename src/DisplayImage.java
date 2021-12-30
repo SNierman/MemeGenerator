@@ -17,9 +17,14 @@ public class DisplayImage {
 
 	}
 
-	public void display() throws IOException {
-		BufferedImage img = ImageIO.read(new File(this.fileToDisplay));
+	public void display()  {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(new File(this.fileToDisplay));
+
 		ImageIcon icon = new ImageIcon(img);
+		
+		//create the JFrame
 		JFrame frame = new JFrame();
 		frame.setLayout(new FlowLayout());
 		JLabel lbl = new JLabel();
@@ -30,6 +35,11 @@ public class DisplayImage {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

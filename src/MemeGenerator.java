@@ -20,6 +20,8 @@ public class MemeGenerator {
 
 		
 		public MemeGenerator(String fileURL, String text, String font, int style, int fontSize, Color color, String stamp) {
+		
+			//validate file
 			try {
 				this.fileURL = fileURL;
 				new Scanner(new File(fileURL));
@@ -42,10 +44,10 @@ public class MemeGenerator {
 			BufferedImage image = ImageIO.read(new File(fileURL));
 			Scanner keyboard = new Scanner(System.in);
 			
+			//user chooses which meme they want based on the options in the grid
 			String fileName = populateSampleMemeGrid(image, keyboard);
 			
 			BufferedImage chosen = ImageIO.read(new File(fileName));
-			
 			
 			//create the chosen one
 			ImageIO.write(chosen, "png", new File(fileURL));
@@ -63,15 +65,11 @@ public class MemeGenerator {
 			
 			Font fontObject = new Font(font, style, fontSize);
 			
-		    // Get the FontMetrics
+		    // Get the FontMetrics to place the text proportionately on the image
 			BufferedImage imge = ImageIO.read(new File(fileURL));
 			Graphics g = imge.getGraphics();
 		    FontMetrics metrics = g.getFontMetrics(fontObject);
 
-		    
-			
-	
-			
 			int yInc = (image.getHeight()- metrics.getHeight()) / 4 + metrics.getAscent();
 			int xInc = (image.getWidth() - metrics.stringWidth(text)) / 3;
 			
@@ -84,6 +82,8 @@ public class MemeGenerator {
 				Graphics pic = newImage.getGraphics();
 				pic.setFont(fontObject);
 				pic.setColor(color);
+				
+				//drop down a line and start again from the left
 				if(i==3) {
 					y+=(yInc*2);
 					x= widthStart;
@@ -91,13 +91,12 @@ public class MemeGenerator {
 
 				pic.drawString(text, x, y);
 				
-				//FontMetrics metrics = pic.getFontMetrics(fontObject);
-				 
+				//set the font to make sure stamp does not vary based on text font
 				pic.setFont(new Font("Noto Color Emoji", 100, 100));
 				pic.drawString(drawImages(stamp), x + metrics.stringWidth(text), y);
-				//x+=(image.getWidth(null)/3)-10;
 				x+=xInc;
 				
+				//name the file with it's index number
 				File img = new File("image" + i);
 				pic.dispose();
 				list[i] = img;
@@ -107,6 +106,8 @@ public class MemeGenerator {
 				
 							
 			}
+			
+			//call the methdo to get the choice of font based on the grid images
 			int choice = positionChoice(keyboard, list);
 			return list[choice].getName();
 		}
@@ -115,7 +116,8 @@ public class MemeGenerator {
 			System.out.println("where would you like your text?");
 			System.out.println("see pop-up");
 
-			Grid ourGrid = new Grid(list);
+			//display the grid
+			new Grid(list);
 			
 			System.out.println("1. top-left");
 			System.out.println("2. top-center");
@@ -133,7 +135,8 @@ public class MemeGenerator {
 			return choice;
 		}
 
-		public String drawImages(String data) {
+		//method to draw the stamp
+		private String drawImages(String data) {
 			try {
 				byte[] utf8 = data.getBytes("UTF-8");
 				data = new String(utf8);
