@@ -1,9 +1,6 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 import java.awt.*;
 
@@ -20,16 +17,16 @@ public class MemeGenerator {
 
 		
 		public MemeGenerator(String fileURL, String text, String font, int style, int fontSize, Color color, String stamp) {
+			
+		try {
+			this.fileURL = fileURL;
+			 new Scanner(new File(fileURL));
+		}
 		
-			//validate file
-			try {
-				this.fileURL = fileURL;
-				new Scanner(new File(fileURL));
-				
-			} catch (FileNotFoundException e) {
-				e.getMessage();
-			}
-		
+		catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
 			this.text = text;
 			this.font = font;
 			this.fontSize = fontSize;
@@ -42,6 +39,7 @@ public class MemeGenerator {
 		public void create() {
 		try {
 			BufferedImage image = ImageIO.read(new File(fileURL));
+			
 			Scanner keyboard = new Scanner(System.in);
 			
 			//user chooses which meme they want based on the options in the grid
@@ -67,6 +65,9 @@ public class MemeGenerator {
 			
 		    // Get the FontMetrics to place the text proportionately on the image
 			BufferedImage imge = ImageIO.read(new File(fileURL));
+			
+			ImageIO.write(imge, "png", new File(fileURL));
+			
 			Graphics g = imge.getGraphics();
 		    FontMetrics metrics = g.getFontMetrics(fontObject);
 
@@ -107,7 +108,7 @@ public class MemeGenerator {
 							
 			}
 			
-			//call the methdo to get the choice of font based on the grid images
+			//call the methdod to get the choice of font based on the grid images
 			int choice = positionChoice(keyboard, list);
 			return list[choice].getName();
 		}
@@ -155,8 +156,6 @@ public class MemeGenerator {
 			}
 			return data;
 		}
-
-		
 	
 }
 

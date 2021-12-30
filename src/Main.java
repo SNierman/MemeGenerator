@@ -1,15 +1,9 @@
 import java.awt.*;
-import java.util.Locale;
 import java.util.Scanner;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.awt.image.BufferedImage;
 
 public class Main {
 
@@ -240,10 +234,10 @@ public class Main {
 				long fileSize;
 				
 					fileSize = Files.size(path);
-
-					while(fileSize < 130000 || fileSize > 2000000) {
+/*
+					while(fileSize < 65000 || fileSize > 3000000) {
 						
-						System.out.println("ERROR: Image size invalid. Please resize image or enter a new image URL. ");
+						System.out.println("ERROR: Image size invalid (Size: " + fileSize + "). Please resize image or enter a new image URL. ");
 						System.out.println("URL: ");
 						fileURL = keyboard.nextLine();
 						
@@ -254,8 +248,9 @@ public class Main {
 
 						notValid = true;
 					}
+					*/
 				notValid = false;
-				
+			
 			} catch (FileNotFoundException e) {
 				// the URL is not in a valid form
 				notValid = true;
