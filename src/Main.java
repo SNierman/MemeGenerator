@@ -132,7 +132,13 @@ public class Main {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-
+		
+		System.out.println("1. Arial");
+		System.out.println("2. Forte");
+		System.out.println("3. Freestlye Script");
+		System.out.println("4. Georgia");
+		System.out.println("5. Rod");
+		System.out.println("6. Stencil");
 		System.out.print("Please enter a choice 1 -6:");
 		fontNum = keyboard.nextInt();
 
@@ -234,7 +240,7 @@ public class Main {
 				long fileSize;
 				
 					fileSize = Files.size(path);
-/*
+
 					while(fileSize < 65000 || fileSize > 3000000) {
 						
 						System.out.println("ERROR: Image size invalid (Size: " + fileSize + "). Please resize image or enter a new image URL. ");
@@ -248,7 +254,7 @@ public class Main {
 
 						notValid = true;
 					}
-					*/
+					
 				notValid = false;
 			
 			} catch (FileNotFoundException e) {

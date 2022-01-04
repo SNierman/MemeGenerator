@@ -27,9 +27,7 @@ public class Grid extends JFrame {
 	//private method called in constructor to retrieve the images from the file list
 	private void init(File [] list) {
 
-		new File("images");
-
-		// getting files name from folder
+		// getting files
 		for (int i = 0; i < list.length; i++) {
 
 			JLabel label = new JLabel();

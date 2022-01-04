@@ -24,7 +24,7 @@ public class DisplayImage {
 
 		ImageIcon icon = new ImageIcon(img);
 		
-		//create the JFrame
+		//create the JFrame to display a pop up
 		JFrame frame = new JFrame();
 		frame.setLayout(new FlowLayout());
 		JLabel lbl = new JLabel();
